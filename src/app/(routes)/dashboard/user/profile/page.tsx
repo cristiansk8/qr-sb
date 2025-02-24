@@ -8,7 +8,6 @@ export default function ProfilePage() {
   const { data: session, status } = useSession();
   const [isClient, setIsClient] = useState(false);
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
   const [notification, setNotification] = useState(""); // Estado para mostrar mensajes
 
   const [formData, setFormData] = useState({

@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { auth } from "@/auth"; // Usa 'auth' directamente
 import prisma from "@/app/lib/prisma";
 import { NextRequest } from "next/server";
 
