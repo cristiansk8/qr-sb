@@ -1,0 +1,52 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id           Int     @id @default(autoincrement())
+  email        String  @unique
+  name         String?
+  phone        String?
+  photo        String?
+  departamento String?
+  ciudad       String?
+
+  // Relación con QR
+  qr qr[] @relation(name: "UserTasks")
+}
+
+model qr {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  priority    String   @default("low")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  qrCode      String?
+  userEmail   String
+  user        User     @relation(fields: [userEmail], references: [email], name: "UserTasks")
+
+  // Relación con Scan
+  scans Scan[] @relation("QRScans") // Nombre de la relación
+}
+
+model Scan {
+  id        Int      @id @default(autoincrement())
+  qrId      Int
+  qr        qr       @relation(fields: [qrId], references: [id], name: "QRScans") // Nombre de la relación
+  scannedAt DateTime @default(now())
+  userAgent String?
+  ip        String?
+}
