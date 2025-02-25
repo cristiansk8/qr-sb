@@ -34,6 +34,7 @@ model qr {
   priority    String   @default("low")
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  cont        String?
   qrCode      String?
   userEmail   String
   user        User     @relation(fields: [userEmail], references: [email], name: "UserTasks")
@@ -47,6 +48,5 @@ model Scan {
   qrId      Int
   qr        qr       @relation(fields: [qrId], references: [id], name: "QRScans") // Nombre de la relación
   scannedAt DateTime @default(now())
-  userAgent String?
   ip        String?
 }

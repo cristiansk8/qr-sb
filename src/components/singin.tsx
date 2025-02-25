@@ -13,7 +13,6 @@ const SigninButton = () => {
   const { data: session } = useSession();
   const [openModal, setModal] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
-  const [openVideoModal, setOpenVideoModal] = useState(false);
 
   const handleModal = () => setModal(!openModal);
 

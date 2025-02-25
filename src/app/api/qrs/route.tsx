@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { name, description, priority, userEmail, qrCode } = body;
+    const { name, description, priority, userEmail, qrCode, cont } = body;
 
     // Validar que se envíen los datos requeridos
     if (!name || !userEmail) {
@@ -18,6 +18,7 @@ export async function POST(req: Request) {
         priority: priority || "low", // Valor por defecto si no se envía
         userEmail, // Guardamos el email
         qrCode,
+        cont,
       },
     });
 

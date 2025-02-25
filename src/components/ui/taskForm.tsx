@@ -5,17 +5,25 @@ import { Button } from "@/components/ui/button";
 import { generateQRCodeDataURL } from "@/components/qr";
 import { Label } from "@radix-ui/react-label";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
+import { QRUrlGenerator } from "@/components/GenerateQRUrl";
 
 export function TaskForm() {
     const { data: session, status } = useSession();
+    const router = useRouter();
+
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [priority, setPriority] = useState("low");
     const [qrCode, setQRCode] = useState("");
+    const [cont, setCont] = useState("");
     const [successMessage, setSuccessMessage] = useState("");
-    const router = useRouter();
 
-    if (status !== "authenticated" || !session?.user?.email) return;
+    const handleGenerateQR = async (generatedUrl: string) => {
+        setCont(generatedUrl);
+        const qr = await generateQRCodeDataURL(generatedUrl);
+        setQRCode(qr);
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -25,7 +33,11 @@ export function TaskForm() {
             return;
         }
 
-        // Enviar la tarea al backend (sin QR aún)
+        if (!cont) {
+            console.error("No se generó la URL de conteo");
+            return;
+        }
+
         const res = await fetch("/api/qrs", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -34,6 +46,8 @@ export function TaskForm() {
                 name,
                 description,
                 priority,
+                qrCode,
+                cont, // 🔹 Enviar la URL de conteo al backend
             }),
         });
 
@@ -42,28 +56,20 @@ export function TaskForm() {
             return;
         }
 
-        const newTask = await res.json(); // Obtiene la tarea con su ID
-        const qrTrackingUrl = `https://tu-sitio.com/api/scan/${newTask.id}`; // URL de tracking
-
-        // Generar QR con la URL de tracking
-        const qrImageDataURL = await generateQRCodeDataURL(qrTrackingUrl);
-        setQRCode(qrImageDataURL);
-
-        // Guardar el QR generado en la base de datos
-        await fetch(`/api/qrs/${newTask.id}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ qrCode: qrImageDataURL }),
-        });
-
         setSuccessMessage("Guardado con éxito ✅");
         setName("");
         setDescription("");
         setPriority("low");
+        setQRCode("");
+        setCont("");
 
         setTimeout(() => setSuccessMessage(""), 3000);
         router.refresh();
     };
+
+    if (status !== "authenticated" || !session?.user?.email) {
+        return <p className="text-red-500">Debes iniciar sesión para crear una tarea.</p>;
+    }
 
     return (
         <form onSubmit={handleSubmit} className="space-y-4 p-4 border rounded-lg shadow-md">
@@ -88,12 +94,18 @@ export function TaskForm() {
                 onChange={(e) => setDescription(e.target.value)}
                 className="w-full p-2 border rounded"
             />
+
+            {name && (
+                <QRUrlGenerator userId={name} onGenerate={handleGenerateQR} />
+            )}
+
             {qrCode && (
                 <div className="flex flex-col space-y-1.5">
                     <Label>Código QR Generado</Label>
-                    <img src={qrCode} alt="Generated QR Code" className="w-[300px] h-[300px] object-contain" />
+                    <Image src={qrCode} alt="Generated QR Code" width={300} height={300} />
                 </div>
             )}
+
             <select
                 value={priority}
                 onChange={(e) => setPriority(e.target.value)}

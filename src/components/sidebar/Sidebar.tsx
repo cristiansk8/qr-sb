@@ -4,8 +4,6 @@ import Image from 'next/image'
 import { IoLogoReact, } from "react-icons/io5"
 import { SidebarMenuItem } from './SidebarMenuItem';
 import { MdOutlineSkateboarding } from "react-icons/md";
-import { GiSkateboard } from "react-icons/gi";
-import { GiTrophy } from "react-icons/gi";
 import { IoQrCode } from "react-icons/io5";
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
