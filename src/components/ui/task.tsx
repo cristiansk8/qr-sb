@@ -1,3 +1,4 @@
+'use client';
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import {
@@ -10,8 +11,19 @@ import {
 import { qr } from "@prisma/client";
 import clsx from "clsx";
 import Link from "next/link";
+import Image from "next/image";
+import { useState, useEffect } from "react"; // Importa useEffect
 
 export function TaskCard({ task }: { task: qr }) {
+  const [qrCode, setQRCode] = useState("");
+
+  // Asigna el valor de task.qrCode a qrCode cuando el componente se monta
+  useEffect(() => {
+    if (task.qrCode) {
+      setQRCode(task.qrCode);
+    }
+  }, [task.qrCode]);
+
   return (
     <Card>
       <CardHeader className="flex flex-row justify-between">
@@ -32,11 +44,11 @@ export function TaskCard({ task }: { task: qr }) {
         <span className="text-slate-600">
           {new Date(task.createdAt).toLocaleDateString()}
         </span>
-        
+
         {/* Si la tarea tiene QR, lo muestra, si no, advierte */}
-        {task.qrCode ? (
+        {qrCode ? (
           <div className="mt-4">
-            <img src={task.qrCode} alt="QR Code" className="w-32 h-32" />
+            <Image src={qrCode} alt="Generated QR Code" width={300} height={300} />
           </div>
         ) : (
           <p className="text-red-500 mt-4">⚠️ Esta tarea no tiene un código QR.</p>

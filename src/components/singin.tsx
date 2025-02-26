@@ -8,8 +8,6 @@ import UserCompletionModal from './UserCompletionModal'; // Ajusta la ruta segú
 
 const SigninButton = () => {
   const pathname = usePathname();
-  if (pathname !== "/") return null; // Oculta el botón en otras páginas
-
   const { data: session } = useSession();
   const [openModal, setModal] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
@@ -30,6 +28,9 @@ const SigninButton = () => {
     };
     checkUserRegistration();
   }, [session]);
+
+  // Mueve la lógica condicional después de los Hooks
+  if (pathname !== "/") return null; // Oculta el botón en otras páginas
 
   return (
     <>

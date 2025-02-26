@@ -1,6 +1,6 @@
 import { TaskCard } from "@/components/ui/task";
 import { TaskForm } from "@/components/ui/taskForm";
-import prisma from "@/libs/prisma";
+import prisma from "@/app/lib/prisma";
 import type { qr } from "@prisma/client";
 
 async function getTasks(): Promise<qr[]> {

@@ -11,7 +11,6 @@ import { QRUrlGenerator } from "@/components/GenerateQRUrl";
 export function TaskForm() {
     const { data: session, status } = useSession();
     const router = useRouter();
-
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [priority, setPriority] = useState("low");
