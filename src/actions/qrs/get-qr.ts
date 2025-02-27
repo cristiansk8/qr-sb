@@ -16,6 +16,6 @@ export const getQrByName = async (name: string) => {
         return qr
 
     } catch (error) {
-        throw new Error('Error gettin')
+        console.log(error)
     }
 }
