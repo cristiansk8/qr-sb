@@ -10,8 +10,8 @@ export function QRUrlGenerator({ userId, onGenerate }: QRUrlGeneratorProps) {
 
   useEffect(() => {
     if (!userId) return;
-
-    const generatedUrl = `https://tu-sitio.com/scan/${userId}`;
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+    const generatedUrl = `${baseUrl}/scan/${userId}`;
     setQrUrl(generatedUrl);
 
     if (onGenerate) {
