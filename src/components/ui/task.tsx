@@ -61,6 +61,7 @@ export function TaskCard({ task }: { task: qr }) {
         >
           Editar
         </Link>
+        <span>{task.cont}</span>
       </CardFooter>
     </Card>
   );
