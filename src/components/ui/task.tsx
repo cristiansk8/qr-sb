@@ -14,7 +14,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react"; // Importa useEffect
 
-export function TaskCard({ task }: { task: qr }) {
+// Define un tipo extendido para la tarea que incluye scanCount
+interface TaskWithScans extends qr {
+  scanCount: number;
+}
+
+export function TaskCard({ task }: { task: TaskWithScans }) {
   const [qrCode, setQRCode] = useState("");
 
   // Asigna el valor de task.qrCode a qrCode cuando el componente se monta
@@ -61,7 +66,7 @@ export function TaskCard({ task }: { task: qr }) {
         >
           Editar
         </Link>
-        <span>{task.cont}</span>
+        <span>Scan: {task.scanCount}</span> {/* Muestra el conteo de escaneos */}
       </CardFooter>
     </Card>
   );

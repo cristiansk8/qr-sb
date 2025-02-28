@@ -3,8 +3,20 @@ import { TaskForm } from "@/components/ui/taskForm";
 import prisma from "@/app/lib/prisma";
 import type { qr } from "@prisma/client";
 
-async function getTasks(): Promise<qr[]> {
-  return await prisma.qr.findMany();
+async function getTasks() {
+  const tasks = await prisma.qr.findMany({
+    include: {
+      scans: true, // Incluye los escaneos asociados a cada QR
+    },
+  });
+
+  // Mapea las tareas para agregar el conteo de escaneos
+  const tasksWithScanCount = tasks.map((task) => ({
+    ...task,
+    scanCount: task.scans.length, // Agrega el conteo de escaneos
+  }));
+
+  return tasksWithScanCount;
 }
 
 export default async function QrPage() {
@@ -17,7 +29,6 @@ export default async function QrPage() {
       ) : (
         <div className="flex flex-col items-center">
           <p className="text-lg font-semibold mb-2">No hay tareas disponibles.</p>
-          
         </div>
       )}
       <TaskForm />
