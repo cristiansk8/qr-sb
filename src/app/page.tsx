@@ -7,7 +7,7 @@ export default function Home() {
         <Image
           className="w-full h-auto dark:invert"
           src="/qr.jpg"
-          alt="Next.js logo"
+          alt="Qerre logo"
           width={180}
           height={38}
           priority
