@@ -1,7 +1,6 @@
 import { TaskCard } from "@/components/ui/task";
 import { TaskForm } from "@/components/ui/taskForm";
 import prisma from "@/app/lib/prisma";
-import type { qr } from "@prisma/client";
 
 async function getTasks() {
   const tasks = await prisma.qr.findMany({
