@@ -61,7 +61,7 @@ const SigninButton = () => {
           {/* Botón de cerrar sesión */}
           <button
             onClick={() => signOut()}
-            className="px-6 py-3 text-lg font-bold text-white bg-red-600 border-4 border-white rounded-lg shadow-lg hover:scale-110 transition-transform duration-300"
+            className="rounded-lg px-3 py-2 text-base bg-white text-red-600 hover:bg-gray-100"
           >
             Salir
           </button>
@@ -69,9 +69,9 @@ const SigninButton = () => {
       ) : (
         <button
           onClick={() => signIn("google")}
-          className="fixed left-1/2 bottom-10 transform -translate-x-1/2 bg-green-600 text-white font-bold px-6 py-3 text-lg rounded-lg shadow-lg border-4 border-white hover:scale-110 transition-transform duration-300"
+          className="rounded-lg px-3 py-2 text-base bg-white text-blue-600 hover:bg-gray-100"
         >
-          Crear QR
+          Create QR
         </button>
       )}
 

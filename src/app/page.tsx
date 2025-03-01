@@ -1,18 +1,34 @@
-import Image from "next/image";
+
+import { CTA } from "@/components/CTA";
+import { Features } from "@/components/Features";
+import { Pricing } from "@/components/Pricing";
+import { Footer } from "@/components/Footer";
+import { Hero } from "@/components/Hero";
+import Providers from "@/components/Providers";
+import Header from "@/components/Header";
+
+
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="w-full h-auto dark:invert"
-          src="/qr.jpg"
-          alt="Qerre logo"
-          width={180}
-          height={38}
-          priority
-        />
+    <Providers>
+      <Header />
+      <main className="flex flex-col px-2">
+        {/* Hero Section */}
+        <Hero />
+
+        {/* Features Section */}
+        <Features />
+
+        {/* Pricing Section */}
+        <Pricing />
+
+        {/* Final CTA Section */}
+        <CTA />
+
+        {/* Footer */}
+        <Footer />
       </main>
-    </div>
+    </Providers>
   );
 }
