@@ -1,5 +1,4 @@
-import SigninButton from "./singin";
-
+import SigninButton from "./auth/SigninButton";
 
 const Header = () => {
     return (
@@ -17,7 +16,15 @@ const Header = () => {
                     <a href="#cta" className="text-gray-600 transition-colors hover:text-blue-600">
                         FAQ
                     </a>
-                    <SigninButton />
+                    {/* <SigninButton>
+                        Create Qr
+                    </SigninButton> */}
+                    <SigninButton
+                        urlRedirec="/dashboard/user/profile"
+                        className={"bg-blue-600 text-white"}
+                    >
+                        Create Qr
+                    </SigninButton>
                 </nav>
             </div>
         </header>

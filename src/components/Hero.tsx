@@ -1,7 +1,7 @@
 import { QrCode } from "lucide-react"
 import { Button } from "./ui/button"
 import Image from "next/image"
-import SigninButton from "./singin"
+import SigninButton from "./auth/SigninButton"
 
 export function Hero() {
     return (
@@ -24,7 +24,9 @@ export function Hero() {
                             height={38}
                             priority
                         />
-                        <SigninButton />
+                        <SigninButton
+                            urlRedirec="/dashboard/user/profile"
+                        >Create Qr</SigninButton>
                     </div>
                 </div>
             </div>

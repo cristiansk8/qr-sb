@@ -7,6 +7,7 @@ import { MdOutlineSkateboarding } from "react-icons/md";
 import { IoQrCode } from "react-icons/io5";
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
+import SignoutButton from '../auth/SignoutButton';
 
 
 const menuItems = [
@@ -75,6 +76,11 @@ export const Sidebar = () => {
           <SidebarMenuItem key={item.path} {...item} />
         ))}
       </div>
+
+      <SignoutButton>
+        Log out
+      </SignoutButton>
+
     </div>
 
   )

@@ -1,5 +1,7 @@
 import { QrCode } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Sigi } from '@/'
+import SigninButton from "./auth/SigninButton"
 
 export function CTA() {
   return (
@@ -12,9 +14,9 @@ export function CTA() {
           Unlock powerful insights and boost your marketing efforts today!
         </p>
         <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
-          <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
-            Crear QR
-          </Button>
+          <SigninButton
+            urlRedirec="/dashboard/user/profile"
+          >Create Qr</SigninButton>
           <Button size="lg" variant="outline" className="border-white text-blue-600 hover:bg-blue-600 hover:text-white">
             Learn More
           </Button>

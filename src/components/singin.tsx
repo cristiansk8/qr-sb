@@ -71,7 +71,7 @@ const SigninButton = () => {
           onClick={() => signIn("google")}
           className="rounded-lg px-3 py-2 text-base bg-white text-blue-600 hover:bg-gray-100"
         >
-          Create QR
+
         </button>
       )}
 
