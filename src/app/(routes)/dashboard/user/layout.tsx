@@ -1,16 +1,19 @@
+import { auth } from '@/auth'
 import Providers from "@/components/Providers";
 import { Sidebar } from "@/components/sidebar";
-/* import { Sidebar } from "@/components/sidebar/Sidebar"; */
 
-export default function DashboardLayout({ children }: { children: React.ReactNode; }) {
+export default async function DashboardLayout({ children }: { children: React.ReactNode; }) {
+  const session = await auth();
   return (
-
     <Providers>
-      <div className="w-full relative flex flex-col md:flex-row lg:flex-row min-h-screen">
+      <div className="md:flex md:flex-row w-full min-h-screen">
         {/* Sidebar */}
-        <Sidebar />
-        {/* Contenido principal */}
-        <div className="">
+        <Sidebar
+          name={session?.user?.name}
+          image={session?.user?.image}
+        />
+        {/* Contenido principal - Sin overflow horizontal */}
+        <div className="w-full flex-1 min-w-0 overflow-x-hidden">
           {children}
         </div>
       </div>

@@ -1,13 +1,21 @@
 import { Logo } from '../Logo';
-import { AlignJustify } from 'lucide-react';
+import { AlignJustify, PanelRightOpen } from 'lucide-react';
 
-export const SidebarHeader = () => (
-    <div className='flex flex-row px-4 md:px-0 justify-between'>
-        <button className='md:hidden'>
-            <AlignJustify />
-        </button>
+
+interface Props {
+    handleClick: () => void
+}
+
+export const SidebarHeader = ({ handleClick }: Props) => (
+    <div className='flex flex-row px-4 md:px-0 justify-between bg-white'>
         <div className='flex md:pl-6 py-3'>
             <Logo />
         </div>
+        <button
+            className='md:hidden'
+            onClick={handleClick}
+        >
+            <PanelRightOpen />
+        </button>
     </div>
 );
