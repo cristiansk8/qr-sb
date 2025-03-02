@@ -1,16 +1,11 @@
-'use client'
-import { usePathname } from 'next/navigation'
-import Link from 'next/link'
+'use client';
 
-interface Props {
-    path: string
-    icon: React.ReactNode
-    title: string
-    subTitle: string
-}
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
+import { MenuItem } from './types';
 
-export const SidebarMenuItem = ({ path, icon, title, subTitle }: Props) => {
-    const currentPath = usePathname()
+export const SidebarMenuItem = ({ path, icon, title, subTitle }: MenuItem) => {
+    const currentPath = usePathname();
 
     return (
         <Link href={path} className={`
@@ -20,10 +15,10 @@ export const SidebarMenuItem = ({ path, icon, title, subTitle }: Props) => {
                 : 'text-gray-600 hover:bg-gray-50'}
     `}>
             <span className="[&>svg]:h-6 [&>svg]:w-6">{icon}</span>
-            <div>
+            <div className=''>
                 <p className="font-medium">{title}</p>
                 <p className="text-xs text-gray-500">{subTitle}</p>
             </div>
         </Link>
-    )
-}
+    );
+};

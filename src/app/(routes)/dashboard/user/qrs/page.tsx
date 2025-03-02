@@ -22,15 +22,20 @@ export default async function QrPage() {
   const tasks = await getTasks();
 
   return (
-    <div className="space-y-4 p-4">
-      {tasks.length > 0 ? (
-        tasks.map((task) => <TaskCard key={task.id} task={task} />)
-      ) : (
-        <div className="flex flex-col items-center">
-          <p className="text-lg font-semibold mb-2">No hay tareas disponibles.</p>
-        </div>
-      )}
-      <TaskForm />
+    <div className="max-h-screen h-full">
+      <div >
+        <h2 className="text-4xl ">Manage Qr</h2>
+      </div>
+      <div className="h-full overflow-y-auto">
+        {tasks.length > 0 ? (
+          tasks.map((task) => <TaskCard key={task.id} task={task} />)
+        ) : (
+          <div className="flex flex-col items-center">
+            <p className="text-lg font-semibold mb-2">No hay tareas disponibles.</p>
+          </div>
+        )}
+        <TaskForm />
+      </div>
     </div>
   );
 }
