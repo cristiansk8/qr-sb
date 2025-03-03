@@ -1,9 +1,9 @@
-import {
+/* import {
     Accordion,
     AccordionContent,
     AccordionItem,
     AccordionTrigger,
-  } from "@/components/ui/accordion";
+  } from "@/components/ui/accordion"; */
 
 
   const faqData = [
@@ -58,7 +58,7 @@ import {
           <h2 className="text-3xl font-bold text-center mb-12 text-indigo-900">
             Frequently Asked Questions
           </h2>
-          <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto">
+{/*           <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto">
             {faqData.map(({ id, question, answer }) => (
               <AccordionItem key={id} value={id}>
                 <AccordionTrigger>{question}</AccordionTrigger>
@@ -67,7 +67,7 @@ import {
                 </AccordionContent>
               </AccordionItem>
             ))}
-          </Accordion>
+          </Accordion> */}
         </div>
       </section>
     );
