@@ -1,5 +1,5 @@
 import { IoQrCode } from "react-icons/io5";
-import { ScanQrCode, User, SquarePlus, CreditCard, CircleHelp, ChartBarBigIcon, Settings } from 'lucide-react';
+import { User, SquarePlus, CreditCard, CircleHelp, ChartBarBigIcon, Settings } from 'lucide-react';
 import { MenuItem } from "./types";
 
 export const MENU_ITEMS: MenuItem[] = [

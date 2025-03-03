@@ -1,5 +1,5 @@
 import { Logo } from '../Logo';
-import { AlignJustify, PanelRightOpen } from 'lucide-react';
+import { PanelRightOpen } from 'lucide-react';
 
 
 interface Props {

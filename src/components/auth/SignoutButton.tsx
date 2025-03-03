@@ -20,10 +20,6 @@ export default function SignoutButton({ urlRedirec = "/", className, children }:
     const handleSignOut = async () => {
         try {
             setLoading(true)
-            const result = await signOut({
-                redirect: false,
-                callbackUrl: urlRedirec
-            });
             router.push(urlRedirec);
             router.refresh()
         } catch (error) {

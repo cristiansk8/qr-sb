@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { IoQrCode } from "react-icons/io5"
 import { SidebarMenuItem } from './SidebarMenuItem'
 import SignoutButton from '../auth/SignoutButton'
-import { ScanQrCode, User, SquarePlus, CreditCard, CircleHelp, ChartBarBigIcon, Settings, AlignJustify } from 'lucide-react'
+import { User, SquarePlus, CreditCard, CircleHelp, ChartBarBigIcon, Settings, AlignJustify } from 'lucide-react'
 import { auth } from '@/auth'
 import { Logo } from '../Logo'
 

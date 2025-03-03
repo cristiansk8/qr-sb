@@ -1,13 +1,6 @@
 import { BarChart3, QrCode, Smartphone } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
-// Definimos el tipo para los features
-type Feature = {
-  icon: React.ReactNode
-  title: string
-  description: string
-}
-
 const features = [
   {
     icon: <QrCode className="h-12 w-12 text-blue-600" />,
