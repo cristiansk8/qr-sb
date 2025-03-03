@@ -5,7 +5,7 @@ import { Pricing } from "@/components/Pricing";
 import { Footer } from "@/components/Footer";
 import { Hero } from "@/components/Hero";
 import Providers from "@/components/Providers";
-import Header from "@/components/Header";
+import Header from "@/components/header";
 
 
 

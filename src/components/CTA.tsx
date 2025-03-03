@@ -1,6 +1,5 @@
 import { QrCode } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Sigi } from '@/'
 import SigninButton from "./auth/SigninButton"
 
 export function CTA() {
