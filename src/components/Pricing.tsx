@@ -1,8 +1,17 @@
-import { Check } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Check } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
-const plans = [
+type Plan = {
+  title: string;
+  price: string;
+  features: string[];
+  buttonLabel: string;
+  highlighted?: boolean;
+  variant?: "default" | "link" | "destructive" | "outline" | "secondary" | "ghost";
+};
+
+const plans: Plan[] = [
   {
     title: "Basic",
     price: "0",
@@ -23,13 +32,12 @@ const plans = [
     buttonLabel: "Contact Sales",
     variant: "outline"
   }
-]
+];
 
 export function Pricing() {
   return (
     <section className="bg-gray-50" id="pricing">
       <div className="py-12 md:py-24 w-full max-w-4xl mx-auto">
-
         <div className="container mx-auto px-4">
           <div className="mb-12 text-center">
             <h2 className="text-3xl font-bold text-gray-900 md:text-4xl">Choose Your Plan</h2>
@@ -68,5 +76,5 @@ export function Pricing() {
         </div>
       </div>
     </section>
-  )
+  );
 }
