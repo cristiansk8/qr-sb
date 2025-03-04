@@ -1,38 +1,53 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 import { TaskCard } from "@/components/ui/task";
 import { TaskForm } from "@/components/ui/taskForm";
-import prisma from "@/app/lib/prisma";
 
-async function getTasks() {
-  const tasks = await prisma.qr.findMany({
-    include: {
-      scans: true, // Incluye los escaneos asociados a cada QR
-    },
-  });
+export default function QrPage() {
+  const { data: session, status } = useSession();
+  const [tasks, setTasks] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [notification, setNotification] = useState("");
 
-  // Mapea las tareas para agregar el conteo de escaneos
-  const tasksWithScanCount = tasks.map((task) => ({
-    ...task,
-    scanCount: task.scans.length, // Agrega el conteo de escaneos
-  }));
+  useEffect(() => {
+    if (status !== "authenticated" || !session?.user?.email) return;
 
-  return tasksWithScanCount;
-}
+    const fetchTasks = async () => {
+      try {
+        const response = await fetch(`/api/qrs?email=${session.user?.email}`);
+        if (!response.ok) throw new Error("No se pudieron obtener las tareas.");
 
-export default async function QrPage() {
-  const tasks = await getTasks();
+        const data = await response.json();
+        setTasks(data);
+      } catch (error) {
+        console.error("Error al obtener las tareas:", error);
+        setNotification("❌ Error al cargar las tareas.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTasks();
+  }, [status, session?.user?.email]);
 
   return (
-    <div className="max-h-screen h-full w-full max-w-full overflow-x-hidden"> {/* Agregar overflow-x-hidden */}
-      <div className="px-4"> {/* Agregar padding horizontal para evitar pegado a los bordes */}
-        <h2 className="text-4xl truncate">Manage Qr</h2> {/* truncate para textos largos */}
+    <div className="max-h-screen h-full w-full max-w-full overflow-x-hidden">
+      <div className="px-4">
+        <h2 className="text-4xl truncate">Manage Qr</h2>
       </div>
-      <div className="h-full overflow-y-auto px-4"> {/* Agregar padding horizontal */}
+      <div className="h-full overflow-y-auto px-4">
         <div className="w-full max-w-full">
-          {tasks.length > 0 ? (
+          {loading ? (
+            <p className="text-lg font-semibold mb-2">Cargando tareas...</p>
+          ) : tasks.length > 0 ? (
             tasks.map((task) => <TaskCard key={task.id} task={task} />)
           ) : (
             <div className="flex flex-col items-center">
-              <p className="text-lg font-semibold mb-2">No hay tareas disponibles.</p>
+              <p className="text-lg font-semibold mb-2">
+                No hay tareas disponibles.
+              </p>
             </div>
           )}
           <TaskForm />

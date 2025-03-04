@@ -1,6 +1,8 @@
 "use client";
 
 import { cn } from "@/libs/utils";
+import { signOut } from "next-auth/react";
+
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -18,6 +20,10 @@ export default function SignoutButton({ urlRedirec = "/", className, children }:
     const handleSignOut = async () => {
         try {
             setLoading(true)
+            await signOut({
+                redirect: false,
+                callbackUrl: urlRedirec
+            });
             router.push(urlRedirec);
             router.refresh()
         } catch (error) {

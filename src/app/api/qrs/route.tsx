@@ -28,3 +28,32 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Error interno del servidor" }, { status: 500 });
   }
 }
+
+export async function GET(req: Request) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const email = searchParams.get("email");
+
+    if (!email) {
+      return NextResponse.json({ error: "Falta el parámetro email" }, { status: 400 });
+    }
+
+    const tasks = await prisma.qr.findMany({
+      where: { userEmail: email },
+      include: {
+        scans: true, // Asegura que se traigan los escaneos
+      },
+    });
+
+    // Agregar el conteo de escaneos
+    const tasksWithScanCount = tasks.map((task) => ({
+      ...task,
+      scanCount: task.scans.length, // Calcula el número de escaneos
+    }));
+
+    return NextResponse.json(tasksWithScanCount);
+  } catch (error) {
+    console.error("Error en API /tasks:", error);
+    return NextResponse.json({ error: "Error interno del servidor" }, { status: 500 });
+  }
+}
