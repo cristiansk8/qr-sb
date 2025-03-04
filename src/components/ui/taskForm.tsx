@@ -7,6 +7,8 @@ import { Label } from "@radix-ui/react-label";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { QRUrlGenerator } from "@/components/GenerateQRUrl";
+import SigninButton from "@/components/auth/SigninButton";
+
 
 export function TaskForm() {
     const { data: session, status } = useSession();
@@ -67,7 +69,12 @@ export function TaskForm() {
     };
 
     if (status !== "authenticated" || !session?.user?.email) {
-        return <p className="text-red-500">Debes iniciar sesión para crear una tarea.</p>;
+        return <p className="text-red-500">Debes iniciar sesión para crear una tarea.                             <SigninButton
+        urlRedirec="/dashboard/user/profile"
+        className={"bg-blue-600 text-white"}
+    >
+        Create Qr
+    </SigninButton></p>;
     }
 
     return (
