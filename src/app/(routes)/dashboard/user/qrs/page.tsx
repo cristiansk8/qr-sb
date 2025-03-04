@@ -1,9 +1,23 @@
-"use client"
+"use client";
+
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { TaskCard } from "@/components/ui/task";
 import { TaskForm } from "@/components/ui/taskForm";
-import { TaskWithScans } from "@/components/types"; // Importa el tipo desde un archivo centralizado
+import { TaskWithScans } from "@/components/types";
+
+interface ApiTask {
+  id: string | number;
+  name?: string;
+  description?: string;
+  priority?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  scanCount?: number;
+  cont?: number;
+  qrCode?: string;
+  userEmail?: string;
+}
 
 export default function QrPage() {
   const { data: session, status } = useSession();
@@ -19,13 +33,13 @@ export default function QrPage() {
         if (!response.ok) throw new Error("No se pudieron obtener las tareas.");
 
         const data = await response.json();
-        const transformedTasks = data.map((task: any) => ({
-          id: Number(task.id), // Convertir string a number (o mantener como string)
+        const transformedTasks = data.map((task: ApiTask) => ({
+          id: Number(task.id),
           name: task.name || "Sin nombre",
           description: task.description || "",
           priority: task.priority || "medium",
-          createdAt: new Date(task.createdAt), // Convertir string a Date
-          updatedAt: new Date(task.updatedAt), // Convertir string a Date
+          createdAt: new Date(task.createdAt || new Date().toISOString()),
+          updatedAt: new Date(task.updatedAt || new Date().toISOString()),
           scanCount: task.scanCount || 0,
           cont: task.cont || 0,
           qrCode: task.qrCode || "",
