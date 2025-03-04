@@ -24,6 +24,19 @@ export function TaskCard({ task }: { task: TaskWithScans }) {
     }
   }, [task.qrCode]);
 
+  // Función para descargar la imagen del QR
+  const handleDownloadQR = () => {
+    if (!qrCode) return;
+
+    // Crear un enlace temporal
+    const link = document.createElement("a");
+    link.href = qrCode;
+    link.download = `qr-${task.name}.png`; // Nombre del archivo descargado
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <Card>
       <CardHeader className="flex flex-row justify-between">
@@ -61,6 +74,13 @@ export function TaskCard({ task }: { task: TaskWithScans }) {
         >
           Editar
         </Link>
+        <button
+          onClick={handleDownloadQR}
+          className={buttonVariants({ variant: "default" })}
+          disabled={!qrCode} // Deshabilitar el botón si no hay QR
+        >
+          Descargar QR
+        </button>
         <span>Scan: {task.scanCount}</span> {/* Muestra el conteo de escaneos */}
       </CardFooter>
     </Card>
