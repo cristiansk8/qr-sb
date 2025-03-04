@@ -8,16 +8,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { qr } from "@prisma/client";
+import { TaskWithScans } from "@/components/types"; // Importa el tipo desde un archivo centralizado
 import clsx from "clsx";
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect } from "react"; // Importa useEffect
-
-// Define un tipo extendido para la tarea que incluye scanCount
-interface TaskWithScans extends qr {
-  scanCount: number;
-}
+import { useState, useEffect } from "react";
 
 export function TaskCard({ task }: { task: TaskWithScans }) {
   const [qrCode, setQRCode] = useState("");
