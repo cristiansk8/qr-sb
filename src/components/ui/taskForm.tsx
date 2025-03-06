@@ -100,7 +100,8 @@ export function TaskForm() {
 
                     // Eliminar prefijos no deseados (http://, https://)
                     value = value.replace(/^https?:\/\//i, "");
-
+                    // Eliminar la barra final si existe
+                    value = value.replace(/\/$/, "");
                     // Asignar el valor formateado al estado
                     setName(value);
                 }}
