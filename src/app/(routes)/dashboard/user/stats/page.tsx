@@ -3,14 +3,10 @@
 
 import { useEffect, useState } from "react";
 import QrStatisticsChart from "@/components/graphics/QrStatisticsChart";
-import ScansByDayChart from "@/components/graphics/ScansByDayChart";
 
 export default function StatisticsPage() {
   // Estado para la gráfica de códigos QR
   const [qrChartData, setQrChartData] = useState<{ name: string; scans: number }[]>([]);
-
-  // Estado para la gráfica de escaneos por día
-  const [scansByDayData, setScansByDayData] = useState<{ date: string; scans: number }[]>([]);
 
   // Obtener los datos de la API para la gráfica de códigos QR
   useEffect(() => {
@@ -34,8 +30,6 @@ export default function StatisticsPage() {
       try {
         const response = await fetch("/api/graphics/scans-by-day");
         if (!response.ok) throw new Error("Error al obtener los datos");
-        const data = await response.json();
-        setScansByDayData(data);
       } catch (error) {
         console.error("Error:", error);
       }
