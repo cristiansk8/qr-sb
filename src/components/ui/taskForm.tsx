@@ -70,11 +70,11 @@ export function TaskForm() {
 
     if (status !== "authenticated" || !session?.user?.email) {
         return <p className="text-red-500">Debes iniciar sesión para crear una tarea.                             <SigninButton
-        urlRedirec="/dashboard/user/profile"
-        className={"bg-blue-600 text-white"}
-    >
-        Create Qr
-    </SigninButton></p>;
+            urlRedirec="/dashboard/user/profile"
+            className={"bg-blue-600 text-white"}
+        >
+            Create Qr
+        </SigninButton></p>;
     }
 
     return (
@@ -87,9 +87,17 @@ export function TaskForm() {
 
             <input
                 type="text"
-                placeholder="Nombre de la tarea"
+                placeholder="Url (ej: deepfc.vercel.app)"
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => {
+                    let value = e.target.value;
+
+                    // Eliminar prefijos no deseados (http://, https://)
+                    value = value.replace(/^https?:\/\//i, "");
+
+                    // Asignar el valor formateado al estado
+                    setName(value);
+                }}
                 className="w-full p-2 border rounded"
                 required
             />
