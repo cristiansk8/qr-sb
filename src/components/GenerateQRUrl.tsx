@@ -21,10 +21,10 @@ export function QRUrlGenerator({ userId, onGenerate }: QRUrlGeneratorProps) {
 
   return (
     <div>
-      <p>URL de seguimiento:</p>
+{/*       <p>URL de seguimiento:</p>
       <a href={qrUrl} target="_blank" rel="noopener noreferrer">
         {qrUrl}
-      </a>
+      </a> */}
     </div>
   );
 }

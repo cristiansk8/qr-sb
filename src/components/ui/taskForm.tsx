@@ -119,18 +119,7 @@ export function TaskForm() {
                     <Image src={qrCode} alt="Generated QR Code" width={180} height={180} />
                 </div>
             )}
-
-            <select
-                value={priority}
-                onChange={(e) => setPriority(e.target.value)}
-                className="w-full p-2 border rounded"
-            >
-                <option value="low">Baja</option>
-                <option value="medium">Media</option>
-                <option value="high">Alta</option>
-                <option value="urgent">Urgente</option>
-            </select>
-            <Button type="submit">Guardar</Button>
+            <Button className="bg-blue-600 text-white" type="submit">Guardar</Button>
         </form>
     );
 }

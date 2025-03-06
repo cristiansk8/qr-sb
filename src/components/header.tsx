@@ -21,7 +21,7 @@ const Header = () => {
                     </SigninButton> */}
                     <SigninButton
                         urlRedirec="/dashboard/user/profile"
-                        className={"bg-blue-600 text-white"}
+                        className={"bg-blue-600 text-white hover:text-black"}
                     >
                         Create Qr
                     </SigninButton>

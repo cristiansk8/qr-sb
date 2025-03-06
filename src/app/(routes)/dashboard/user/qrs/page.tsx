@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import { TaskCard } from "@/components/ui/task";
+import { QRcard } from "@/components/ui/qrCard";
 import { TaskForm } from "@/components/ui/taskForm";
 import { TaskWithScans } from "@/components/types";
 
@@ -66,7 +66,7 @@ export default function QrPage() {
           {loading ? (
             <p className="text-lg font-semibold mb-2">Cargando tareas...</p>
           ) : tasks.length > 0 ? (
-            tasks.map((task) => <TaskCard key={task.id} task={task} />)
+            tasks.map((task) => <QRcard key={task.id} task={task} />)
           ) : (
             <div className="flex flex-col items-center">
               <p className="text-lg font-semibold mb-2">

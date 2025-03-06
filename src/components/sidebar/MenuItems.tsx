@@ -45,5 +45,6 @@ export const MENU_ITEMS: MenuItem[] = [
         title: 'Support',
         subTitle: 'Get assistance'
     }
+
     // ... resto de los items
 ];
