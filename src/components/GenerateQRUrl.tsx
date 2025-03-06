@@ -13,7 +13,7 @@ export function QRUrlGenerator({ userId, onGenerate }: QRUrlGeneratorProps) {
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
     const generatedUrl = `${baseUrl}/scan/${userId}`;
     setQrUrl(generatedUrl);
-
+    console.log(qrUrl)
     if (onGenerate) {
       onGenerate(generatedUrl);
     }
