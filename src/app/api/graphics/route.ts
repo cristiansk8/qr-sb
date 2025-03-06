@@ -15,7 +15,7 @@ export async function GET() {
 
     // Procesar los datos para el gráfico
     const chartData = qrCodes.map((qr) => ({
-      name: qr.name, // Nombre del QR
+      name: qr.description, // Nombre del QR
       scans: qr.scans.length, // Número de escaneos
     }));
 

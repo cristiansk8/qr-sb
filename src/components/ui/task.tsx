@@ -40,7 +40,7 @@ export function TaskCard({ task }: { task: TaskWithScans }) {
   return (
     <Card>
       <CardHeader className="flex flex-row justify-between">
-        <CardTitle>{task.name}</CardTitle>
+        <CardTitle>{task.description}</CardTitle>
         <Badge
           className={clsx({
             "bg-red-500 text-white": task.priority === "high",
@@ -53,7 +53,10 @@ export function TaskCard({ task }: { task: TaskWithScans }) {
         </Badge>
       </CardHeader>
       <CardContent>
-        <p>{task.description}</p>
+        <Link
+          href={`/${task.name}`}>
+          <p>{task.name}</p>
+        </Link>
         <span className="text-slate-600">
           {new Date(task.createdAt).toLocaleDateString()}
         </span>
@@ -61,7 +64,7 @@ export function TaskCard({ task }: { task: TaskWithScans }) {
         {/* Si la tarea tiene QR, lo muestra, si no, advierte */}
         {qrCode ? (
           <div className="mt-4">
-            <Image src={qrCode} alt="Generated QR Code" width={300} height={300} />
+            <Image src={qrCode} alt="Generated QR Code" width={150} height={150} />
           </div>
         ) : (
           <p className="text-red-500 mt-4">⚠️ Esta tarea no tiene un código QR.</p>

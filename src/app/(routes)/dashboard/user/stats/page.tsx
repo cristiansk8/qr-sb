@@ -30,6 +30,7 @@ export default function StatisticsPage() {
       try {
         const response = await fetch("/api/graphics/scans-by-day");
         if (!response.ok) throw new Error("Error al obtener los datos");
+        const data = await response.json();
       } catch (error) {
         console.error("Error:", error);
       }

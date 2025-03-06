@@ -7,7 +7,9 @@ interface QrStatisticsChartProps {
   data: { name: string; scans: number }[]; // Datos para el gráfico
 }
 
+
 export default function QrStatisticsChart({ data }: QrStatisticsChartProps) {
+  console.log(data)
   return (
     <BarChart
       width={600}

@@ -79,15 +79,21 @@ export function TaskForm() {
 
     return (
         <form onSubmit={handleSubmit} className="space-y-4 p-4 border rounded-lg shadow-md">
-            <h2 className="text-xl font-bold">Crear Nueva Tarea</h2>
+            <h2 className="text-xl font-bold">Crear un QR</h2>
 
             {successMessage && (
                 <p className="text-green-600 font-medium">{successMessage}</p>
             )}
-
             <input
                 type="text"
-                placeholder="Url (ej: deepfc.vercel.app)"
+                placeholder="Nombre"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                className="w-full p-2 border rounded"
+            />
+            <input
+                type="text"
+                placeholder="Url (ej: mitienda.com)"
                 value={name}
                 onChange={(e) => {
                     let value = e.target.value;
@@ -101,13 +107,7 @@ export function TaskForm() {
                 className="w-full p-2 border rounded"
                 required
             />
-            <input
-                type="text"
-                placeholder="Descripción"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                className="w-full p-2 border rounded"
-            />
+
 
             {name && (
                 <QRUrlGenerator userId={name} onGenerate={handleGenerateQR} />
@@ -116,7 +116,7 @@ export function TaskForm() {
             {qrCode && (
                 <div className="flex flex-col space-y-1.5">
                     <Label>Código QR Generado</Label>
-                    <Image src={qrCode} alt="Generated QR Code" width={300} height={300} />
+                    <Image src={qrCode} alt="Generated QR Code" width={180} height={180} />
                 </div>
             )}
 
