@@ -3,10 +3,11 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { QRcard } from "@/components/ui/qrCard";
-import { TaskForm } from "@/components/ui/taskForm";
-import { TaskWithScans } from "@/components/types";
+import { QRForm } from "@/components/ui/qrForm";
+import { QRWithScans } from "@/components/types";
+import { ApiQR } from "@/types/QR.interface";
 
-interface ApiTask {
+/* interface ApiQR {
   id: string | number;
   name?: string;
   description?: string;
@@ -17,44 +18,55 @@ interface ApiTask {
   cont?: number;
   qrCode?: string;
   userEmail?: string;
-}
+} */
 
 export default function QrPage() {
   const { data: session, status } = useSession();
-  const [tasks, setTasks] = useState<TaskWithScans[]>([]);
+  const [QRs, setQRs] = useState<QRWithScans[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const fetchQRs = async (email: string, signal: AbortSignal) => {
+    try {
+      const response = await fetch(`/api/qrs?email=${email}`, { signal });
+      if (!response.ok) throw new Error("Failed to fetch QR codes.");
+
+      const data = await response.json();
+      setQRs(
+        data.map((qr: ApiQR) => ({
+          id: Number(qr.id),
+          name: qr.name || "Unnamed",
+          description: qr.description || "",
+          priority: qr.priority || "medium",
+          createdAt: new Date(qr.createdAt || new Date().toISOString()),
+          updatedAt: new Date(qr.updatedAt || new Date().toISOString()),
+          scanCount: qr.scanCount || 0,
+          cont: qr.cont || 0,
+          qrCode: qr.qrCode || "",
+          userEmail: qr.userEmail || email,
+        }))
+      );
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error("Error fetching QR codes:", error.message);
+      } else {
+        console.error("Unexpected error:", error);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
   useEffect(() => {
     if (status !== "authenticated" || !session?.user?.email) return;
 
-    const fetchTasks = async () => {
-      try {
-        const response = await fetch(`/api/qrs?email=${session.user?.email}`);
-        if (!response.ok) throw new Error("No se pudieron obtener las tareas.");
-
-        const data = await response.json();
-        const transformedTasks = data.map((task: ApiTask) => ({
-          id: Number(task.id),
-          name: task.name || "Sin nombre",
-          description: task.description || "",
-          priority: task.priority || "medium",
-          createdAt: new Date(task.createdAt || new Date().toISOString()),
-          updatedAt: new Date(task.updatedAt || new Date().toISOString()),
-          scanCount: task.scanCount || 0,
-          cont: task.cont || 0,
-          qrCode: task.qrCode || "",
-          userEmail: task.userEmail || session.user?.email || "",
-        }));
-        setTasks(transformedTasks);
-      } catch (error) {
-        console.error("Error al obtener las tareas:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchTasks();
+    const controller = new AbortController();
+    fetchQRs(session.user.email, controller.signal);
+    return () => controller.abort(); // Cleanup en caso de desmontaje
   }, [status, session?.user?.email]);
+
+
+
 
   return (
     <div className="max-h-screen h-full w-full max-w-full overflow-x-hidden">
@@ -64,17 +76,17 @@ export default function QrPage() {
       <div className="h-full overflow-y-auto px-4">
         <div className="w-full max-w-full">
           {loading ? (
-            <p className="text-lg font-semibold mb-2">Cargando tareas...</p>
-          ) : tasks.length > 0 ? (
-            tasks.map((task) => <QRcard key={task.id} task={task} />)
+            <p className="text-lg font-semibold mb-2">Loading QR...</p>
+          ) : QRs.length > 0 ? (
+            QRs.map((qr) => <QRcard key={qr.id} task={qr} />)
           ) : (
             <div className="flex flex-col items-center">
               <p className="text-lg font-semibold mb-2">
-                No hay tareas disponibles.
+                No QRS available.
               </p>
             </div>
           )}
-          <TaskForm />
+          <QRForm />
         </div>
       </div>
     </div>

@@ -10,7 +10,7 @@ import { QRUrlGenerator } from "@/components/GenerateQRUrl";
 import SigninButton from "@/components/auth/SigninButton";
 
 
-export function TaskForm() {
+export function QRForm() {
     const { data: session, status } = useSession();
     const router = useRouter();
     const [name, setName] = useState("");
@@ -30,12 +30,12 @@ export function TaskForm() {
         e.preventDefault();
 
         if (!session?.user?.email) {
-            console.error("No hay sesión activa");
+            console.error("No active session");
             return;
         }
 
         if (!cont) {
-            console.error("No se generó la URL de conteo");
+            console.error("Tracking URL was not generated");
             return;
         }
 
@@ -48,16 +48,16 @@ export function TaskForm() {
                 description,
                 priority,
                 qrCode,
-                cont, // 🔹 Enviar la URL de conteo al backend
+                cont, // 🔹 Send the tracking URL to the backend
             }),
         });
 
         if (!res.ok) {
-            console.error("Error al registrar:", await res.json());
+            console.error("Error saving:", await res.json());
             return;
         }
 
-        setSuccessMessage("Guardado con éxito ✅");
+        setSuccessMessage("Saved successfully ✅");
         setName("");
         setDescription("");
         setPriority("low");
@@ -69,46 +69,50 @@ export function TaskForm() {
     };
 
     if (status !== "authenticated" || !session?.user?.email) {
-        return <p className="text-red-500">Debes iniciar sesión para crear una tarea.                             <SigninButton
-            urlRedirec="/dashboard/user/profile"
-            className={"bg-blue-600 text-white"}
-        >
-            Create Qr
-        </SigninButton></p>;
+        return (
+            <p className="text-red-500">
+                You must log in to create a task.
+                <SigninButton
+                    urlRedirec="/dashboard/user/profile"
+                    className={"bg-blue-600 text-white"}
+                >
+                    Create QR
+                </SigninButton>
+            </p>
+        );
     }
 
     return (
         <form onSubmit={handleSubmit} className="space-y-4 p-4 border rounded-lg shadow-md">
-            <h2 className="text-xl font-bold">Crear un QR</h2>
+            <h2 className="text-xl font-bold">Create a QR Code</h2>
 
             {successMessage && (
                 <p className="text-green-600 font-medium">{successMessage}</p>
             )}
             <input
                 type="text"
-                placeholder="Nombre"
+                placeholder="Name"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 className="w-full p-2 border rounded"
             />
             <input
                 type="text"
-                placeholder="Url (ej: mitienda.com)"
+                placeholder="URL (e.g., myshop.com)"
                 value={name}
                 onChange={(e) => {
                     let value = e.target.value;
 
-                    // Eliminar prefijos no deseados (http://, https://)
+                    // Remove unwanted prefixes (http://, https://)
                     value = value.replace(/^https?:\/\//i, "");
-                    // Eliminar la barra final si existe
+                    // Remove trailing slash if it exists
                     value = value.replace(/\/$/, "");
-                    // Asignar el valor formateado al estado
+                    // Assign formatted value to state
                     setName(value);
                 }}
                 className="w-full p-2 border rounded"
                 required
             />
-
 
             {name && (
                 <QRUrlGenerator userId={name} onGenerate={handleGenerateQR} />
@@ -116,11 +120,11 @@ export function TaskForm() {
 
             {qrCode && (
                 <div className="flex flex-col space-y-1.5">
-                    <Label>Código QR Generado</Label>
+                    <Label>Generated QR Code</Label>
                     <Image src={qrCode} alt="Generated QR Code" width={180} height={180} />
                 </div>
             )}
-            <Button className="bg-blue-600 text-white" type="submit">Guardar</Button>
+            <Button className="bg-blue-600 text-white" type="submit">Save</Button>
         </form>
     );
 }

@@ -1,12 +1,12 @@
 'use client';
 import { buttonVariants } from "@/components/ui/button";
-import { TaskWithScans } from "@/components/types";
+import { QRWithScans } from "@/components/types";
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Download, Pencil, Trash2 } from "lucide-react";
 
-export function QRcard({ task }: { task: TaskWithScans }) {
+export function QRcard({ task }: { task: QRWithScans }) {
   const [qrCode, setQRCode] = useState("");
 
   useEffect(() => {

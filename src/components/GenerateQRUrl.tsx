@@ -17,11 +17,11 @@ export function QRUrlGenerator({ userId, onGenerate }: QRUrlGeneratorProps) {
     if (onGenerate) {
       onGenerate(generatedUrl);
     }
-  }, [userId, onGenerate]);
+  }, [userId, onGenerate, qrUrl]);
 
   return (
     <div>
-{/*       <p>URL de seguimiento:</p>
+      {/*       <p>URL de seguimiento:</p>
       <a href={qrUrl} target="_blank" rel="noopener noreferrer">
         {qrUrl}
       </a> */}

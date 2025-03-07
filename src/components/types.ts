@@ -1,4 +1,4 @@
-export interface TaskWithScans {
+export interface QRWithScans {
   id: number; // o string, dependiendo de tu caso
   name: string;
   description: string;
