@@ -57,3 +57,30 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: "Error interno del servidor" }, { status: 500 });
   }
 }
+
+export async function DELETE(req: Request) {
+  try {
+    const { id } = await req.json();
+
+    if (!id ) {
+      return NextResponse.json({ error: "El ID del QR y el email son obligatorios" }, { status: 400 });
+    }
+
+    // Verificar si el QR existe y pertenece al usuario
+    const qrToDelete = await prisma.qr.findUnique({
+      where: { id },
+    });
+
+    if (!qrToDelete) {
+      return NextResponse.json({ error: "QR no encontrado" }, { status: 404 });
+    }
+    // Eliminar el QR
+    await prisma.qr.delete({ where: { id } });
+
+    return NextResponse.json({ message: "QR eliminado exitosamente" }, { status: 200 });
+
+  } catch (error) {
+    console.error("Error al eliminar el QR:", error);
+    return NextResponse.json({ error: "Error interno del servidor" }, { status: 500 });
+  }
+}

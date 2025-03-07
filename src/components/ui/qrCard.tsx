@@ -1,6 +1,6 @@
 'use client';
 import { buttonVariants } from "@/components/ui/button";
-import { TaskWithScans } from "@/components/types"; // Importa el tipo desde un archivo centralizado
+import { TaskWithScans } from "@/components/types";
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
@@ -9,24 +9,51 @@ import { Download, Pencil, Trash2 } from "lucide-react";
 export function QRcard({ task }: { task: TaskWithScans }) {
   const [qrCode, setQRCode] = useState("");
 
-  // Asigna el valor de task.qrCode a qrCode cuando el componente se monta
   useEffect(() => {
     if (task.qrCode) {
       setQRCode(task.qrCode);
     }
   }, [task.qrCode]);
 
-  // Función para descargar la imagen del QR
   const handleDownloadQR = () => {
     if (!qrCode) return;
-
-    // Crear un enlace temporal
     const link = document.createElement("a");
     link.href = qrCode;
-    link.download = `qr-${task.name}.png`; // Nombre del archivo descargado
+    link.download = `qr-${task.name}.png`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  };
+
+  const handleDeleteQR = async () => {
+    if (!task.id || !task.userEmail) {
+      alert("Error: No se pudo identificar el QR o el usuario.");
+      return;
+    }
+
+    const confirmDelete = confirm("¿Estás seguro de que deseas eliminar este QR?");
+    if (!confirmDelete) return;
+
+    try {
+      const res = await fetch(`/api/qrs`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: task.id }),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        alert("QR eliminado correctamente");
+        window.location.reload(); // Recargar la página para actualizar la lista de QRs
+      } else {
+        alert(`Error: ${data.error}`);
+      }
+    } catch (error) {
+      console.error("Error al eliminar el QR:", error);
+      alert("Hubo un problema al eliminar el QR.");
+    }
   };
 
   return (
@@ -44,24 +71,20 @@ export function QRcard({ task }: { task: TaskWithScans }) {
             <button
               onClick={handleDownloadQR}
               className={buttonVariants({ variant: "default" })}
-              disabled={!qrCode} // Deshabilitar el botón si no hay QR
+              disabled={!qrCode}
             >
-             <Download />
+              <Download />
             </button>
             <button
-              onClick={handleDownloadQR}
-              className= "text-red-600"
-              disabled={!qrCode} // Deshabilitar el botón si no hay QR
+              onClick={handleDeleteQR}
+              className="text-red-600 hover:text-red-800 transition-colors p-2"
             >
-             <Trash2 />
+              <Trash2 />
             </button>
-            
           </div>
         </div>
         <div>
-          <Link
-            target="_blank"
-            href={`https://${task.name}`}>
+          <Link target="_blank" href={`https://${task.name}`}>
             <p>{task.name}</p>
           </Link>
           <span className="text-slate-600">
@@ -69,12 +92,10 @@ export function QRcard({ task }: { task: TaskWithScans }) {
           </span>
         </div>
       </div>
-      <div className="flex flex-col ">
+      <div className="flex flex-col">
         <Image className="h-36 w-36 object-contain" src={qrCode} alt="Generated QR Code" width={300} height={300} />
-        <span>scanned: {task.scanCount}</span> {/* Muestra el conteo de escaneos */}
+        <span>scanned: {task.scanCount}</span>
       </div>
-
-
     </div>
   );
 }

@@ -39,14 +39,15 @@ model qr {
   userEmail   String
   user        User     @relation(fields: [userEmail], references: [email], name: "UserTasks")
 
-  // Relación con Scan
-  scans Scan[] @relation("QRScans") // Nombre de la relación
+  scans Scan[] @relation("QRScans") // Aquí NO se pone onDelete
 }
 
 model Scan {
   id        Int      @id @default(autoincrement())
   qrId      Int
-  qr        qr       @relation(fields: [qrId], references: [id], name: "QRScans") // Nombre de la relación
+  qr        qr       @relation(fields: [qrId], references: [id], name: "QRScans", onDelete: Cascade) // ✅ Aquí sí va onDelete
   scannedAt DateTime @default(now())
   ip        String?
 }
+
+
