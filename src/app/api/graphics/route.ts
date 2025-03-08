@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 const prisma = new PrismaClient();
 
 // Función para manejar solicitudes GET
-export async function GET(email: string) {
+export async function GET() {
   try {
     // Obtener los datos de la base de datos
     const qrCodes = await prisma.qr.findMany({
