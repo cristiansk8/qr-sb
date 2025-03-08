@@ -1,0 +1,1 @@
+export { getQRsByUser } from './get-qrs.action';

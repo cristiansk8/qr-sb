@@ -1,12 +1,12 @@
 'use client';
 import { buttonVariants } from "@/components/ui/button";
-import { QRWithScans } from "@/components/types";
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Download, Pencil, Trash2 } from "lucide-react";
+import { ApiQR } from "@/types/QR.interface";
 
-export function QRcard({ task }: { task: QRWithScans }) {
+export function QRcard({ task }: { task: ApiQR }) {
   const [qrCode, setQRCode] = useState("");
 
   useEffect(() => {
@@ -87,9 +87,9 @@ export function QRcard({ task }: { task: QRWithScans }) {
           <Link target="_blank" href={`https://${task.name}`}>
             <p>{task.name}</p>
           </Link>
-          <span className="text-slate-600">
+          {/* <span className="text-slate-600">
             {new Date(task.createdAt).toLocaleDateString()}
-          </span>
+          </span> */}
         </div>
       </div>
       <div className="flex flex-col">
