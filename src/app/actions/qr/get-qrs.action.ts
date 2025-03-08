@@ -12,7 +12,7 @@ export async function getQRsByUser(
         // Validación mínima necesaria
         if (!email || !email.includes('@')) {
             return {
-                error: 'Email no válido',
+                error: 'Invalid email address',
                 status: 400
             };
         }
@@ -26,9 +26,8 @@ export async function getQRsByUser(
         // Transformación clara
         const formattedData: ApiQR[] = qrs.map(qr => ({
             id: Number(qr.id),
-            name: qr.name || "Unnamed",
+            name: qr.name || "",
             description: qr.description || "",
-            priority: qr.priority || "medium",
             createdAt: new Date(qr.createdAt).toISOString(),
             updatedAt: new Date(qr.updatedAt).toISOString(),
             scanCount: qr.scans.length,
@@ -40,9 +39,9 @@ export async function getQRsByUser(
         return { data: formattedData as ApiQR[], status: 200 };
 
     } catch (error) {
-        console.error('Error en getQRsByUser:', error);
+        console.error('[SERVER] Error fetching QRs:', error);
         return {
-            error: error instanceof Error ? error.message : 'Error desconocido',
+            error: error instanceof Error ? error.message : 'Unknown error',
             status: 500
         };
     }

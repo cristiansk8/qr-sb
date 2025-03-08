@@ -15,31 +15,29 @@ datasource db {
 }
 
 model User {
-  id           Int     @id @default(autoincrement())
-  email        String  @unique
-  name         String?
-  phone        String?
-  photo        String?
-  departamento String?
-  ciudad       String?
-
+  id    Int     @id @default(autoincrement())
+  email String  @unique
+  name  String?
+  phone String?
+  photo String?
   // Relación con QR
-  qr qr[] @relation(name: "UserTasks")
+  qr    qr[]    @relation(name: "UserTasks")
 }
 
 model qr {
   id          Int      @id @default(autoincrement())
   name        String
   description String?
-  priority    String   @default("low")
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  scanCount   Int?
   cont        String?
   qrCode      String?
-  userEmail   String
-  user        User     @relation(fields: [userEmail], references: [email], name: "UserTasks")
 
-  scans Scan[] @relation("QRScans") // Aquí NO se pone onDelete
+  user      User   @relation(fields: [userEmail], references: [email], name: "UserTasks")
+  userEmail String
+
+  scans Scan[] @relation("QRScans")
 }
 
 model Scan {
@@ -49,5 +47,3 @@ model Scan {
   scannedAt DateTime @default(now())
   ip        String?
 }
-
-

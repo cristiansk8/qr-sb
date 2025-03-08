@@ -1,20 +1,19 @@
 export interface ApiQR {
-  id: string | number;
-  name?: string;
-  description?: string;
-  priority?: string;
-  createdAt?: string;
-  updatedAt?: string;
-  scanCount?: number;
-  cont?: number;
-  qrCode?: string;
-  userEmail?: string;
-  // Si necesitas incluir escaneos
-  scans?: Scan[];
+  id: number;            
+  name: string;          
+  description?: string;  
+  createdAt: string;     
+  updatedAt: string;
+  scanCount?: number;     
+  cont?: number;         
+  qrCode?: string;       
+  userEmail: string;    
+  scans?: Scan[];        
 }
 
-interface Scan {
+export interface Scan {
   id: number;
-  scannedAt: string;  // Asegurar formato string
-  ip?: string;
+  qrId: number;          
+  scannedAt: string;     
+  ip?: string;           
 }
