@@ -1,7 +1,7 @@
 import { QRForm } from "@/components/ui/qrForm";
 import Link from "next/link";
 import { auth } from "@/auth";
-import { getUserByEmail } from "@/app/actions/user";
+import { getUserByEmail } from "@/actions/user";
 
 
 export default async function NewQr() {

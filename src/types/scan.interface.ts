@@ -4,3 +4,4 @@ export interface Scan {
     scannedAt?: Date;
     ip: string;
 }
+

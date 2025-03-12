@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import Link from "next/link";
 import { auth } from "@/auth";
 
-import { qrActions } from "@/app/actions";
+import { qrActions } from "@/actions";
 
 import { QRcard } from "@/components/ui/qrCard";
 import { Spinner } from "@/components/Spinner";
