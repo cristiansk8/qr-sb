@@ -1,14 +1,17 @@
 "use client";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+
 import { Button } from "@/components/ui/button";
 import { generateQRCodeDataURL } from "@/components/qr";
-import { Label } from "@radix-ui/react-label";
-import { useSession } from "next-auth/react";
-import Image from "next/image";
-import { QRUrlGenerator } from "@/components/GenerateQRUrl";
+
 import SigninButton from "@/components/auth/SigninButton";
 import { QrCode } from "lucide-react";
+import { createQR } from "@/actions/qr/create-qr.action";
+
+import crypto from "crypto";
+
 
 
 interface Props {
@@ -18,57 +21,30 @@ interface Props {
 export function QRForm({ email }: Props) {
     const { data: session, status } = useSession();
     const router = useRouter();
+    const [url, setUrl] = useState("");
     const [name, setName] = useState("");
-    const [description, setDescription] = useState("");
-    const [priority, setPriority] = useState("low");
-    const [qrCode, setQRCode] = useState("");
-    const [cont, setCont] = useState("");
     const [successMessage, setSuccessMessage] = useState("");
-
-    const handleGenerateQR = async (generatedUrl: string) => {
-        setCont(generatedUrl);
-        const qr = await generateQRCodeDataURL(generatedUrl);
-        setQRCode(qr);
-    };
+    const urlScan = "scan"
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!session?.user?.email) {
-            console.error("No active session");
-            return;
-        }
+        const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
-        if (!cont) {
-            console.error("Tracking URL was not generated");
-            return;
-        }
+        const hash = crypto.createHash("sha256").update(email + Date.now().toString()).digest("hex").slice(0, 10);
 
-        const res = await fetch("/api/qrs", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                userEmail: email,
-                name,
-                description,
-                priority,
-                qrCode,
-                cont, // 🔹 Send the tracking URL to the backend
-            }),
-        });
+        const generatedUrl = `${baseUrl}/${urlScan}/${hash}`;
 
-        if (!res.ok) {
-            console.error("Error saving:", await res.json());
-            return;
-        }
+        const qrC = await generateQRCodeDataURL(generatedUrl);
+
+        const newQR = await createQR(name, url, email, hash, generatedUrl, qrC)
+
+        console.log(newQR);
+
 
         setSuccessMessage("Saved successfully ✅");
+        setUrl("");
         setName("");
-        setDescription("");
-        setPriority("low");
-        setQRCode("");
-        setCont("");
-
         setTimeout(() => setSuccessMessage(""), 3000);
         router.refresh();
     };
@@ -101,8 +77,8 @@ export function QRForm({ email }: Props) {
                         <input
                             type="text"
                             placeholder="Name"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
                             className="w-full p-2 border rounded"
                         />
                     </div>
@@ -111,7 +87,7 @@ export function QRForm({ email }: Props) {
                         <input
                             type="text"
                             placeholder="URL (e.g., myshop.com)"
-                            value={name}
+                            value={url}
                             onChange={(e) => {
                                 let value = e.target.value;
 
@@ -120,28 +96,38 @@ export function QRForm({ email }: Props) {
                                 // Remove trailing slash if it exists
                                 value = value.replace(/\/$/, "");
                                 // Assign formatted value to state
-                                setName(value);
+                                setUrl(value);
                             }}
                             className="w-full p-2 border rounded"
                             required
                         />
                     </div>
                 </div>
-                <div>
-                    {name && (
-                        <QRUrlGenerator userId={name} onGenerate={handleGenerateQR} />
-                    )}
-                    <div className="flex flex-col justify-center items-center p-4">
-                        <Label className="text-gray-400">Preview</Label>
-                        {qrCode ? (
-                            <Image src={qrCode} alt="Generated QR Code" width={180} height={180} />
-                        ) :
-                            <QrCode className="text-blue-600 h-48 w-48" />
-                        }
+
+                <div className="flex flex-col justify-center items-center px-4 pt-2  bg-white w-60">
+                    <label className="text-gray-400 font-bold mb-2">QR Preview</label>
+
+                    <div className="relative flex flex-col items-center gap-3">
+                        <div className="p-4 border border-gray-300 rounded-lg">
+                            <QrCode
+                                className={`h-48 w-48 transition-opacity duration-300 ${url ? "opacity-100" : "opacity-30 blur-md"
+                                    }`}
+                            />
+                        </div>
+
+                        {url ? (
+                            <p className="text-sm text-gray-600 text-center flex items-center gap-2">
+                                <QrCode className="h-5 w-5 text-blue-600" />
+                                This is a preview; the final QR will be generated upon completion.
+                            </p>
+                        ) : (
+                            <p className="text-gray-400 text-sm text-center">Generating your QR code...</p>
+                        )}
                     </div>
                 </div>
-            </div>
 
+
+            </div>
 
             <Button className="bg-blue-600 text-white" type="submit">Save</Button>
         </form>

@@ -1,23 +1,28 @@
 import { useEffect, useState } from "react";
 
 interface QRUrlGeneratorProps {
-  userId: string;
+  hash: string;
   onGenerate?: (url: string) => void; // Definimos el tipo de onGenerate correctamente
 }
 
-export function QRUrlGenerator({ userId, onGenerate }: QRUrlGeneratorProps) {
+export function QRUrlGenerator({ hash, onGenerate }: QRUrlGeneratorProps) {
   const [qrUrl, setQrUrl] = useState("");
+  const urlScan = "scan"
 
   useEffect(() => {
-    if (!userId) return;
+    if (!hash) return;
+
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-    const generatedUrl = `${baseUrl}/scan/${userId}`;
+    const generatedUrl = `${baseUrl}/${urlScan}/${hash}`;
+
+
     setQrUrl(generatedUrl);
     console.log(qrUrl)
+
     if (onGenerate) {
       onGenerate(generatedUrl);
     }
-  }, [userId, onGenerate, qrUrl]);
+  }, [hash, onGenerate, qrUrl]);
 
   return (
     <div>
