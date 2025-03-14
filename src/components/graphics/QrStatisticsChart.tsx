@@ -9,7 +9,7 @@ interface QrStatisticsChartProps {
 
 
 export default function QrStatisticsChart({ data }: QrStatisticsChartProps) {
-  console.log(data)
+  /* console.log(data) */
   return (
     <BarChart
       width={600}
@@ -20,9 +20,12 @@ export default function QrStatisticsChart({ data }: QrStatisticsChartProps) {
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis dataKey="name" />
       <YAxis />
-      <Tooltip />
+      <Tooltip
+        formatter={(value) => [value, "Scans"]}
+        labelFormatter={(label) => `Time Slot: ${label}`}
+      />
       <Legend />
-      <Bar dataKey="scans" fill="#8884d8" />
+      <Bar dataKey="scans" fill="oklch(0.623 0.214 259.815)" name=" " />
     </BarChart>
   );
 }

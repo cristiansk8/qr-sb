@@ -8,7 +8,8 @@ export interface ApiQR {
   cont?: number;         
   qrCode?: string;       
   userEmail: string;    
-  scans?: Scan[];        
+  scans?: Scan[];
+  hash?: string  ;     
 }
 
 export interface Scan {

@@ -47,7 +47,7 @@ export default async function StatisticsPage() {
             <h3 className="text-2xl font-semibold text-gray-900">
               No QR Codes Found
             </h3>
-            <p className="text-gray-600 dark:text-gray-400 max-w-md mx-auto">
+            <p className="text-gwray-600 dark:text-gray-400 max-w-md mx-auto">
               Start tracking your QR code scans by creating your first QR code.
             </p>
             <Link

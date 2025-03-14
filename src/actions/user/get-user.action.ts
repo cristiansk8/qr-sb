@@ -1,7 +1,7 @@
 'use server'
 import prisma from '@/app/lib/prisma';
 import { ServerActionResponse } from '@/types/server-action';
-import { User } from '@/types/user.interface';
+import { User, UserPlan } from '@/types/user.interface';
 
 export async function getUserByEmail(email: string): Promise<ServerActionResponse<User>> {
     try {
@@ -32,6 +32,7 @@ export async function getUserByEmail(email: string): Promise<ServerActionRespons
             updatedAt: qr.updatedAt.toISOString(),
             description: qr.description || undefined,
             qrCode: qr.qrCode || undefined,
+            hash: qr.hash ?? "",
         }));
 
         const userData: User = {
@@ -40,6 +41,7 @@ export async function getUserByEmail(email: string): Promise<ServerActionRespons
             name: user.name || '',
             phone: user.phone || '',
             photo: user.photo || '',
+            plan: user.plan as UserPlan || UserPlan.Basic,
             qr: formattedQR
         };
 

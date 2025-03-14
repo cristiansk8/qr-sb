@@ -3,7 +3,7 @@ import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { Download, Pencil, Trash2 } from "lucide-react";
+import { ChartNoAxesCombined, Download, Pencil, Trash2 } from "lucide-react";
 import { ApiQR } from "@/types/QR.interface";
 
 export function QRcard({ task }: { task: ApiQR }) {
@@ -57,13 +57,13 @@ export function QRcard({ task }: { task: ApiQR }) {
   };
 
   return (
-    <div className="flex flex-row w-full max-w-full justify-between border border-t-4 mt-2 gap-2 px-4">
+    <div className="flex flex-row w-full max-w-full justify-between mt-2 gap-2 px-4 bg-white rounded-xl shadow-lg transition-all hover:shadow-xl">
       <div className="flex flex-col gap-4 w-full p-2">
         <div className="flex flex-row justify-between w-full">
           <h2 className="text-xl text-blue-600 font-semibold capitalize">{task.name}</h2>
           <div className="flex">
             <Link
-              href={`/tasks/${task.id}/edit`}
+              href={`/qrs/${task.id}/edit`}
               className={buttonVariants({ variant: "secondary" })}
             >
               <Pencil />
@@ -81,6 +81,14 @@ export function QRcard({ task }: { task: ApiQR }) {
             >
               <Trash2 />
             </button>
+
+            <Link
+              href={`qrs/${task.hash}`}
+              className="flex items-center gap-1 bg-gray-800 text-white text-xs px-2 py-1 rounded-md shadow-sm hover:bg-gray-700 transition-all">
+              <ChartNoAxesCombined size={12} />
+              Details
+            </Link>
+
           </div>
         </div>
         <div>

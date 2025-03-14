@@ -33,7 +33,8 @@ export async function getQRsByUser(
             scanCount: qr.scans.length,
             cont: Number(qr.cont) || 0,
             qrCode: qr.qrCode || "",
-            userEmail: qr.userEmail
+            userEmail: qr.userEmail,
+            hash: qr.hash || ""
         }));
 
         return { data: formattedData as ApiQR[], status: 200 };
