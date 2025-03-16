@@ -1,7 +1,9 @@
+import { Pricing } from "@/components/Pricing";
+
 export default function NewQr() {
     return (
         <div>
-            <h2>billing</h2>
+            <Pricing />
         </div>
     )
 }

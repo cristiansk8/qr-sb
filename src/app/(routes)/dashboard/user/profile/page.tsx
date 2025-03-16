@@ -86,8 +86,7 @@ export default function ProfilePage() {
 
   return (
     <div className="text-black">
-      <h1 className="mt-2 text-3xl">Hola</h1>
-      <span className="text-xl">Información general</span>
+
 
       {notification && (
         <div className={`mt-4 p-2 text-white rounded ${notification.includes("Error") ? "bg-red-500" : "bg-green-500"}`}>
@@ -95,13 +94,23 @@ export default function ProfilePage() {
         </div>
       )}
 
-      {loading && <p>Cargando...</p>}
+      {loading && <p>loading...</p>}
+      <div className="p-4 max-w-6xl mx-auto">
+        <div className="px-4 my-6">
+          <div className="border-b border-gray-200 pb-4">
+            <h1 className="text-3xl font-bold text-blue-600 tracking-tight">
+              General Informatión
+            </h1>
+          </div>
+        </div>
+      </div>
 
       <form
         onSubmit={handleSubmitUpdateProfile}
         className="grid grid-cols-2 bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
       >
         <div className="mb-4">
+
           <label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2">Nombre:</label>
           <input
             className="shadow border rounded w-full py-2 px-3"
@@ -131,7 +140,7 @@ export default function ProfilePage() {
             type="submit"
             disabled={loading}
           >
-            {loading ? "Guardando..." : "Guardar"}
+            {loading ? "Updating..." : "Update"}
           </button>
         </div>
       </form>
