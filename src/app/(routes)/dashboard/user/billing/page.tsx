@@ -1,9 +1,9 @@
-import { Pricing } from "@/components/Pricing";
+import { PricingFinal } from "@/components/PricingFinal";
 
 export default function NewQr() {
     return (
         <div>
-            <Pricing />
+            <PricingFinal />
         </div>
     )
 }
